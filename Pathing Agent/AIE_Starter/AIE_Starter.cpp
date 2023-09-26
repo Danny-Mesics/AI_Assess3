@@ -40,18 +40,25 @@ int main(int argc, char* argv[])
     asciiMap.push_back("0000000000000000000");
 
     NodeMap nodeMap;
-    nodeMap.Initialise(asciiMap, 50);
+    nodeMap.Intialise(asciiMap, 50);
 
-    std:vector<Agent*> agents;
+    std::vector<Agent*> agents;
 
+    Agent* agent = new Agent(&nodeMap, new GoToPointBehaviour());
     Node* start = nodeMap.GetNode(1, 1);
-    Node* end = nodeMap.GetNode(10, 2);
-    nodeMap.path = nodeMap.DijkstrasSearch(start, end);
+    agent->SetNode(start);
+    agents.push_back(agent);
 
-    PathAgent agent = PathAgent(&nodeMap);
-    agent.SetNode(start);
-    agent.SetSpeed(64);
-    
+    agent = new Agent(&nodeMap, new WanderBehaviour());
+    agent->SetNode(nodeMap.GetRandomNode());
+    agent->SetSpeed(256);
+    agents.push_back(agent);
+
+    agent = new Agent(&nodeMap, new SelectorBehaviour(new FollowBehaviour(), new WanderBehaviour()));
+    agent->SetTargetAgent(agents[1]);
+    agent->SetSpeed(128);
+    agent->SetNode(nodeMap.GetRandomNode());
+    agents.push_back(agent);
 
     float time = (float)GetTime();
     float deltaTime;
@@ -66,14 +73,10 @@ int main(int argc, char* argv[])
         //----------------------------------------------------------------------------------
         // TODO: Update your variables here
         //----------------------------------------------------------------------------------
-        if (IsMouseButtonPressed(0)) {
-            Vector2 mousePos = GetMousePosition();
-            start = nodeMap.GetClosestNode(glm::vec2(mousePos.x, mousePos.y));
-            agent.GoToNode(start);
-        }
         
-
-        agent.Update(deltaTime);
+        for (int i = 0; i < agents.size(); i++) {
+            agents[i]->Update(deltaTime);
+        }
 
         // Draw
         //----------------------------------------------------------------------------------
@@ -82,8 +85,10 @@ int main(int argc, char* argv[])
         ClearBackground(BLACK);
 
         nodeMap.Draw();
-        //nodeMap.DrawPath();
-        agent.Draw();
+        
+        for (int i = 0; i < agents.size(); i++) {
+            agents[i]->Draw();
+        }
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -93,6 +98,10 @@ int main(int argc, char* argv[])
     //--------------------------------------------------------------------------------------   
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
+
+    for (int i = 0; i < agents.size(); i++) {
+        delete agents[i];
+    }
 
     return 0;
 }

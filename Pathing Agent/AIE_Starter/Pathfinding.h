@@ -14,6 +14,7 @@ namespace AIForGames
 
         Edge();
         Edge(Node* target, float cost);
+
     };
 
     struct Node {
@@ -23,7 +24,9 @@ namespace AIForGames
         Node(float x, float y);
         void ConnectTo(Node* other, float cost);
 
+        float hScore;
         float gScore;
+        float fScore;
         Node* previous;
 
     };
@@ -31,45 +34,30 @@ namespace AIForGames
     class NodeMap {
         int width;
         int height;
+        float cellSize;
 
         Node** nodes;
-
+        std::vector<Node*> m_allNodes;
     public:
-        float cellSize;
         std::vector<Node*> path;
 
         int mapSize;
-
-        void Initialise(std::vector <std::string> asciiMap, int cellSize);
+        void Intialise(std::vector <std::string> asciiMap, int cellSize);
 
         Node* GetNode(int x, int y);
-
+        Node* GetRandomNode();
         void Draw();
-
         std::vector<Node*> DijkstrasSearch(Node* start, Node* end);
-
+        std::vector<Node*> AStarSearch(Node* start, Node* end);
         void DrawPath();
-
         Node* GetClosestNode(glm::vec2 worldPos);
-
+        float GetCellSize();
 
         ~NodeMap();
 
-    };
 
-     //  <<<>>><<<<<<*&*%!&*(*)(*)+=_-_-_-_*--->
-     //  <<<>>><<<<<<*&*%!&*(*)(*)+=_-_-_-_*--->
-     //  <<<>>><<<<<<*&*%!&*(*)(*)+=_-_-_-_*--->
-     //  <<<>>><<<<<<*&*%!&*(*)(*)+=_-_-_-_*--->
-     //  =========-----=========------========--
-     //  ---------------------------------------
-     //                Path Agent
-     //  ---------------------------------------
-     //  =========-----=========------========--
-     //  <<<>>><<<<<<*&*%!&*(*)(*)+=_-_-_-_*--->
-     //  <<<>>><<<<<<*&*%!&*(*)(*)+=_-_-_-_*--->
-     //  <<<>>><<<<<<*&*%!&*(*)(*)+=_-_-_-_*--->
-     //  <<<>>><<<<<<*&*%!&*(*)(*)+=_-_-_-_*--->
+
+    };
 
 
 
