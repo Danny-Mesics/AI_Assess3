@@ -10,6 +10,9 @@
 #include "WanderBehaviour.h"
 #include "FollowBehaviour.h"
 #include "SelectorBehaviour.h"
+#include "DistanceCondition.h"
+#include "State.h"
+#include "FiniteStateMachine.h"
 
 using namespace AIForGames;
 
@@ -44,21 +47,36 @@ int main(int argc, char* argv[])
 
     std::vector<Agent*> agents;
 
-    Agent* agent = new Agent(&nodeMap, new GoToPointBehaviour());
+    Agent* agent1 = new Agent(&nodeMap, new GoToPointBehaviour());
     Node* start = nodeMap.GetNode(1, 1);
-    agent->SetNode(start);
-    agents.push_back(agent);
+    agent1->SetNode(start);
+    agents.push_back(agent1);
 
-    agent = new Agent(&nodeMap, new WanderBehaviour());
-    agent->SetNode(nodeMap.GetRandomNode());
-    agent->SetSpeed(256);
-    agents.push_back(agent);
+    Agent* agent2 = new Agent(&nodeMap, new WanderBehaviour());
+    agent2->SetNode(nodeMap.GetRandomNode());
+    agent2->SetSpeed(256);
+    agents.push_back(agent2);
 
-    agent = new Agent(&nodeMap, new SelectorBehaviour(new FollowBehaviour(), new WanderBehaviour()));
-    agent->SetTargetAgent(agents[1]);
-    agent->SetSpeed(128);
-    agent->SetNode(nodeMap.GetRandomNode());
-    agents.push_back(agent);
+    // set up a FSM, we're going to have two states with their own conditions
+    DistanceCondition* closerThan5 = new DistanceCondition(5.0f * nodeMap.GetCellSize(), true);
+    DistanceCondition* furtherThan7 = new DistanceCondition(7.0f * nodeMap.GetCellSize(), false);
+
+    // register these states with the FSM, so its responsible for deleting them now
+    State* wanderState = new State(new WanderBehaviour());
+    State* followState = new State(new FollowBehaviour());
+    wanderState->AddTransition(closerThan5, followState);
+    followState->AddTransition(furtherThan7, wanderState);
+
+    // make a finite state machine that starts off wandering
+    FiniteStateMachine* fsm = new FiniteStateMachine(wanderState);
+    fsm->AddState(wanderState);
+    fsm->AddState(followState);
+
+    Agent* agent3 = new Agent(&nodeMap, fsm);
+    agent3->SetNode(nodeMap.GetRandomNode());
+    agent3->SetTargetAgent(agents[1]);
+    agent3->SetSpeed(128);
+    agents.push_back(agent3);
 
     float time = (float)GetTime();
     float deltaTime;
