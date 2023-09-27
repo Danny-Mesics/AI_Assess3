@@ -3,6 +3,15 @@
 #include "Pathfinding.h"
 namespace AIForGames
 {
+
+	void FollowBehaviour::Enter(Agent* agent)
+	{
+		// red when following
+		agent->SetColor({ 255,0,0,255 });
+		agent->SetPathColor({ 255,0,0,255 });
+		agent->Reset();
+	}
+
 	void FollowBehaviour::Update(Agent* agent, float deltaTime)
 	{
 		Agent* target = agent->GetTargetAgent();

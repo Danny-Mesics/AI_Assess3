@@ -52,7 +52,7 @@ namespace AIForGames
 		DrawCircle((int)m_position.x, (int)m_position.y, 8, m_color);
 		if (m_path.empty()) return;
 		for (int i = m_currentIndex + 1; i < m_path.size(); i++) {
-			DrawLine(m_path[i]->position.x, m_path[i]->position.y, m_path[i - 1]->position.x, m_path[i - 1]->position.y, GREEN);
+			DrawLine(m_path[i]->position.x, m_path[i]->position.y, m_path[i - 1]->position.x, m_path[i - 1]->position.y, m_pathColour);
 		}
 	}
 
@@ -82,5 +82,9 @@ namespace AIForGames
 	void PathAgent::SetColor(Color c)
 	{
 		m_color = c;
+	}
+	void PathAgent::SetPathColour(Color c)
+	{
+		m_pathColour = c;
 	}
 }

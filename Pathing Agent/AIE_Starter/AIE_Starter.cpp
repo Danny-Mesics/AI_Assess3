@@ -9,7 +9,6 @@
 #include "GoToPointBehaviour.h"
 #include "WanderBehaviour.h"
 #include "FollowBehaviour.h"
-#include "SelectorBehaviour.h"
 #include "DistanceCondition.h"
 #include "State.h"
 #include "FiniteStateMachine.h"
@@ -47,15 +46,10 @@ int main(int argc, char* argv[])
 
     std::vector<Agent*> agents;
 
-    Agent* agent1 = new Agent(&nodeMap, new GoToPointBehaviour());
-    Node* start = nodeMap.GetNode(1, 1);
-    agent1->SetNode(start);
+    Agent* agent1 = new Agent(&nodeMap, new WanderBehaviour());
+    agent1->SetNode(nodeMap.GetRandomNode());
+    agent1->SetSpeed(256);
     agents.push_back(agent1);
-
-    Agent* agent2 = new Agent(&nodeMap, new WanderBehaviour());
-    agent2->SetNode(nodeMap.GetRandomNode());
-    agent2->SetSpeed(256);
-    agents.push_back(agent2);
 
     // set up a FSM, we're going to have two states with their own conditions
     DistanceCondition* closerThan5 = new DistanceCondition(5.0f * nodeMap.GetCellSize(), true);
@@ -72,11 +66,12 @@ int main(int argc, char* argv[])
     fsm->AddState(wanderState);
     fsm->AddState(followState);
 
-    Agent* agent3 = new Agent(&nodeMap, fsm);
-    agent3->SetNode(nodeMap.GetRandomNode());
-    agent3->SetTargetAgent(agents[1]);
-    agent3->SetSpeed(128);
-    agents.push_back(agent3);
+    Agent* agent2 = new Agent(&nodeMap, fsm);
+    agent2->SetNode(nodeMap.GetRandomNode());
+    agent2->SetTargetAgent(agent1);
+    agent2->SetSpeed(128);
+    agents.push_back(agent2);
+    
 
     float time = (float)GetTime();
     float deltaTime;

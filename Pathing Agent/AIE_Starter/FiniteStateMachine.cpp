@@ -1,6 +1,7 @@
 #include "FiniteStateMachine.h"
 #include "State.h"
 #include "Condition.h"
+#include "Behaviour.h"
 
 AIForGames::FiniteStateMachine::~FiniteStateMachine()
 {
@@ -9,10 +10,10 @@ AIForGames::FiniteStateMachine::~FiniteStateMachine()
         delete s;
 }
 
-//void AIForGames::FiniteStateMachine::Enter(Agent* agent)
-//{
-//
-//}
+void AIForGames::FiniteStateMachine::Enter(Agent* agent)
+{
+    m_currentState->Enter(agent);
+}
 
 void AIForGames::FiniteStateMachine::Update(Agent* agent, float deltaTime)
 {
@@ -30,16 +31,14 @@ void AIForGames::FiniteStateMachine::Update(Agent* agent, float deltaTime)
     {
         //m_currentState->Exit(agent);
         m_currentState = newState;
-        //m_currentState->Enter(agent);
+        m_currentState->Enter(agent);
     }
 
     // update the current state
     m_currentState->Update(agent, deltaTime);
 }
 
-//void AIForGames::FiniteStateMachine::Exit(Agent* agent)
-//{
-//}
+
 
 void AIForGames::FiniteStateMachine::AddState(State* state)
 {

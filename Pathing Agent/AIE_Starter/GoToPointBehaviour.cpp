@@ -5,6 +5,12 @@
 
 namespace AIForGames
 {
+	void GoToPointBehaviour::Enter(Agent* agent)
+	{
+		// blue when going to point
+		agent->SetColor({ 0,0,255,255 });
+		agent->Reset();
+	}
 	void GoToPointBehaviour::Update(Agent* agent, float deltaTime)
 	{
 		if (IsMouseButtonPressed(0))

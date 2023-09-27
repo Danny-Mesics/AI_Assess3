@@ -59,6 +59,10 @@ namespace AIForGames
 	{
 		m_pathAgent.SetColor(c);
 	}
+	void Agent::SetPathColor(Color c)
+	{
+		m_pathAgent.SetPathColour(c);
+	}
 	void Agent::SetSpeed(float s)
 	{
 		m_pathAgent.SetSpeed(s);

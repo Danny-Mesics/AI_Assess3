@@ -9,6 +9,7 @@ namespace AIForGames
         public Behaviour
     {
     public:
+        virtual void Enter(Agent* agent);
         virtual void Update(Agent* agent, float deltaTime);
     private:
         glm::vec2 lastTargetPosition;

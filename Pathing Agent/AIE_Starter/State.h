@@ -48,12 +48,13 @@ namespace AIForGames
         State(Behaviour* behaviour);
         ~State();
 
-        //virtual void Enter(Agent* agent);
+        virtual void Enter(Agent* agent);
         virtual void Update(Agent* agent, float deltaTime);
         //virtual void Exit(Agent* agent);
 
         void AddTransition(Condition* condition, State* state);
         std::vector<Transition> GetTransitions() { return m_transitions; };
+        //std::vector<Behaviour*> GetBehaviours() { return m_behaviours; };
     };
 }
 

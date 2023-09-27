@@ -23,10 +23,11 @@ namespace AIForGames
         FiniteStateMachine(State* s) : m_currentState(s), m_newState(nullptr) {}
         virtual ~FiniteStateMachine();
 
-        void Enter(Agent* agent);
+        
         void Update(Agent* agent, float deltaTime);
-        void Exit(Agent* agent);
+        
         void AddState(State* state);
+        void Enter(Agent* agent);
     };
 }
 

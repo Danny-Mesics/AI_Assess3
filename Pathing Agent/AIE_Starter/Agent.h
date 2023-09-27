@@ -2,6 +2,7 @@
 
 #include "raylib.h"
 #include "PathAgent.h"
+#include "Behaviour.h"
 
 namespace AIForGames
 {
@@ -11,7 +12,10 @@ namespace AIForGames
 	class Agent
 	{
 	public:
-		Agent(NodeMap* _nodeMap, Behaviour* _behaviour) : m_current(_behaviour), m_nodeMap(_nodeMap), m_color({ 255,255,0,255 }), m_pathAgent(_nodeMap) { m_pathAgent.SetSpeed(128); }
+		Agent(NodeMap* _nodeMap, Behaviour* _behaviour) : m_current(_behaviour), m_nodeMap(_nodeMap), m_color({ 255,255,0,255 }), m_pathAgent(_nodeMap) { 
+			m_pathAgent.SetSpeed(128); 
+			m_current->Enter(this);
+		}
 		~Agent() { delete m_current; }
 
 		void Update(float deltaTime);
@@ -26,6 +30,7 @@ namespace AIForGames
 		glm::vec2 GetPosition();
 		NodeMap* GetNodeMap();
 		void SetColor(Color c);
+		void SetPathColor(Color c);
 		void SetSpeed(float s);
 		void Reset();
 	protected:

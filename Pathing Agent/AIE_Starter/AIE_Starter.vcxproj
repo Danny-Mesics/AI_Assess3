@@ -148,7 +148,6 @@
     <ClCompile Include="GoToPointBehaviour.cpp" />
     <ClCompile Include="PathAgent.cpp" />
     <ClCompile Include="Pathfinding.cpp" />
-    <ClCompile Include="SelectorBehaviour.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="WanderBehaviour.cpp" />
   </ItemGroup>
@@ -165,7 +164,6 @@
     <ClInclude Include="GoToPointBehaviour.h" />
     <ClInclude Include="PathAgent.h" />
     <ClInclude Include="Pathfinding.h" />
-    <ClInclude Include="SelectorBehaviour.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="WanderBehaviour.h" />
   </ItemGroup>

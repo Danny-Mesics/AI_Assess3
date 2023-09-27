@@ -20,6 +20,7 @@ namespace AIForGames
 		glm::vec2 GetPosition();
 		void Reset();
 		void SetColor(Color c);
+		void SetPathColour(Color c);
 	protected:
 	private:
 		glm::vec2 m_position;
@@ -29,5 +30,6 @@ namespace AIForGames
 		float m_speed;
 		NodeMap* nodeMap;
 		Color m_color;
+		Color m_pathColour;
 	};
 }
