@@ -34,6 +34,7 @@ namespace AIForGames
 		void SetSpeed(float s);
 		void Reset();
 	protected:
+		Behaviour* m_BehaviourTree;
 	private:
 		PathAgent m_pathAgent;
 		Behaviour* m_current;

@@ -6,9 +6,9 @@ namespace AIForGames
 {
 	void Agent::Update(float deltaTime)
 	{
-		if (m_current)
-			m_current->Update(this, deltaTime);
-		m_pathAgent.Update(deltaTime);
+		if (m_BehaviourTree != nullptr) {
+			m_BehaviourTree->tick(this, deltaTime);
+		}
 	}
 
 	void Agent::Draw()
